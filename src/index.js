@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const moment = require('moment/moment');
 const app = express();
+const router = express.Router()
 const nodeCron = require("node-cron")
 
 
@@ -10,13 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-
 app.listen(3001, ()=> console.log("Running on port 3001..."))
 
 
 //accessing date from the user on "/" route to use in node-cron schedule function for time interval inputs...
-app.post("/",(req,res)=>{
-    const arr = req.body
+router.post("/",(req,res)=>{
+    const arr = req.body.array
 
     let userText = arr[0].text
 
@@ -30,6 +30,7 @@ app.post("/",(req,res)=>{
 
 //cron job
 nodeCron.schedule("*/10 * * * * *", () => console.log("Some cron task running ..... ", moment().format("Do MM YYYY, h:mm:ss a")));
+
 
 
 
